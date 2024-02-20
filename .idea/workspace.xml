@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1df4aa0f-79a6-4ea7-b4c2-fe1cdc1a7032" name="Changes" comment="Board creation + valids steps function">
+    <list default="true" id="1df4aa0f-79a6-4ea7-b4c2-fe1cdc1a7032" name="Changes" comment="updated steps mapping function 20/2">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/checkers_game.py" beforeDir="false" afterPath="$PROJECT_DIR$/checkers_game.py" afterDir="false" />
     </list>
@@ -22,6 +22,20 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "almogs87"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="07fe9cfa-57ff-497b-bb0e-b08cf3c76cc2" />
+        <option name="url" value="https://github.com/almogs87/Damka.git" />
+      </UrlAndAccount>
+    </option>
   </component>
   <component name="ProjectColorInfo"><![CDATA[{
   "associatedIndex": 2
@@ -90,22 +104,38 @@
       <option name="project" value="LOCAL" />
       <updated>1708381238496</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="updated steps mapping function 20/2">
+      <option name="closed" value="true" />
+      <created>1708442447489</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1708442447489</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Board creation + valids steps function" />
-    <option name="LAST_COMMIT_MESSAGE" value="Board creation + valids steps function" />
+    <MESSAGE value="updated steps mapping function 20/2" />
+    <option name="LAST_COMMIT_MESSAGE" value="updated steps mapping function 20/2" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/checkers_game.py</url>
-          <line>135</line>
-          <option name="timeStamp" value="26" />
+          <line>163</line>
+          <option name="timeStamp" value="40" />
         </line-breakpoint>
       </breakpoints>
+      <default-breakpoints>
+        <breakpoint type="python-exception">
+          <properties notifyOnTerminate="true" exception="BaseException">
+            <option name="notifyOnTerminate" value="true" />
+          </properties>
+        </breakpoint>
+      </default-breakpoints>
     </breakpoint-manager>
   </component>
 </project>
