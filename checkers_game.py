@@ -71,35 +71,8 @@ def map_capture(player,optional_steps):
     sign = int(not(player-1))*1 + int(not(2-player))*-1
 
     flag_capture = 0
-    L=int(len(optional_steps)/2)
-    steps_capture = np.zeros((2*L,5))
-
-    for k in range(L):
-        capture = 99
-        vacant = optional_steps[k+L,0]
-        y0 = optional_steps[k+L,1]
-        x0 = optional_steps[k+L,2]
-        y1 = optional_steps[k+L,3]
-        x1 = optional_steps[k+L,4]
-
-        x2 = x1 + 1
-        y2 = y1 + sign
-        if vacant==99 or vacant==1:
-            capture = int(not((99-vacant)))*99
-        else:
-            IsSamePlayer = int(board[y0, x0] == board[y1, x1])
-            if IsSamePlayer<1:
-                Valid_right = int(0<=x2<8 and 0<=y2<8) # verify that X2,Y2 are within table limits
-                capture = Valid_right
-
-        steps_capture[k+L,0] = capture
-        steps_capture[k+L,1] = y0
-        steps_capture[k+L,2] = x0
-        steps_capture[k+L,3] = y2
-        steps_capture[k+L,4] = x2
-
-        if flag_capture==0:
-            flag_capture=int(capture==1)
+    L=int(len(optional_steps))
+    steps_capture = np.zeros((L,5))
 
     for k in range(L):
         capture = 99
@@ -109,7 +82,10 @@ def map_capture(player,optional_steps):
         y1 = optional_steps[k,3]
         x1 = optional_steps[k,4]
 
-        x2 = x1 - 1
+
+        direction = np.sign(k-(L/2))
+
+        x2 = x1 + direction
         y2 = y1 + sign
         if vacant==99 or vacant==1:
             capture = int(not((99-vacant)))*99
