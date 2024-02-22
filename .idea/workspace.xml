@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1df4aa0f-79a6-4ea7-b4c2-fe1cdc1a7032" name="Changes" comment="capture mapping added 21/2">
+    <list default="true" id="1df4aa0f-79a6-4ea7-b4c2-fe1cdc1a7032" name="Changes" comment="efficient capture mapping added 21/2">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/checkers_game.py" beforeDir="false" afterPath="$PROJECT_DIR$/checkers_game.py" afterDir="false" />
     </list>
@@ -128,22 +128,39 @@
       <option name="project" value="LOCAL" />
       <updated>1708470648301</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="efficient capture mapping added 21/2">
+      <option name="closed" value="true" />
+      <created>1708512172767</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1708512172767</updated>
+    </task>
+    <task id="LOCAL-00006" summary="efficient capture mapping added 21/2">
+      <option name="closed" value="true" />
+      <created>1708512209514</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1708512209514</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Board creation + valids steps function" />
     <MESSAGE value="updated steps mapping function 20/2" />
     <MESSAGE value="capture mapping added 21/2" />
-    <option name="LAST_COMMIT_MESSAGE" value="capture mapping added 21/2" />
+    <MESSAGE value="efficient capture mapping added 21/2" />
+    <option name="LAST_COMMIT_MESSAGE" value="efficient capture mapping added 21/2" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/checkers_game.py</url>
-          <line>152</line>
-          <option name="timeStamp" value="1" />
+          <line>173</line>
+          <option name="timeStamp" value="18" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
