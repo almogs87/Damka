@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1df4aa0f-79a6-4ea7-b4c2-fe1cdc1a7032" name="Changes" comment="efficient capture mapping added 21/2">
+    <list default="true" id="1df4aa0f-79a6-4ea7-b4c2-fe1cdc1a7032" name="Changes" comment="initial player movements">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/checkers_game.py" beforeDir="false" afterPath="$PROJECT_DIR$/checkers_game.py" afterDir="false" />
     </list>
@@ -144,7 +144,15 @@
       <option name="project" value="LOCAL" />
       <updated>1708512209514</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="initial player movements">
+      <option name="closed" value="true" />
+      <created>1708599011759</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1708599011759</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -152,17 +160,11 @@
     <MESSAGE value="updated steps mapping function 20/2" />
     <MESSAGE value="capture mapping added 21/2" />
     <MESSAGE value="efficient capture mapping added 21/2" />
-    <option name="LAST_COMMIT_MESSAGE" value="efficient capture mapping added 21/2" />
+    <MESSAGE value="initial player movements" />
+    <option name="LAST_COMMIT_MESSAGE" value="initial player movements" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/checkers_game.py</url>
-          <line>173</line>
-          <option name="timeStamp" value="18" />
-        </line-breakpoint>
-      </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
           <properties notifyOnTerminate="true" exception="BaseException">

@@ -1,16 +1,18 @@
 import numpy as np
 import csv
 
-def update_board(player1,player2):
+def update_board(player1,player2, Print = True):
     board = np.empty((brd_size, brd_size)) * 0
     board = board.astype('int8')
 
     for idx in range(len(player1)):
         x, y = player1[idx]
         board[x, y] = 1
+    for idx in range(len(player2)):
         x, y = player2[idx]
         board[x, y] = 2
-    print(np.flip(board))
+    if Print==True:
+        print(np.flip(board))
 
     return board
 def read_file(filename):
@@ -21,55 +23,48 @@ def read_file(filename):
         steps.append(row)
     steps = np.array(steps)
     return steps
-def map_steps(player , loc):
-    vacant1 = 99
-    vacant2 = 99
-    sign = int(not(player-1))*1 + int(not(2-player))*-1
-    loc1 = loc + np.array([sign * 1, -1])
-    loc2 = loc + np.array([sign * 1, 1])
+def map_steps(player_num , CurrentPlayer):
 
-    if (player == 1) and (loc[0]==7):
-        # print('player 1 cannot proceed from line 7')
-        pass
+    # right_moves=np.zeros((len(CurrentPlayer),5),dtype='int8')
+    # left_moves=np.zeros((len(CurrentPlayer),5),dtype='int8')
+    # for k in range(len(CurrentPlayer)):
+    #     right_moves[k,:],left_moves[k,:]=map_steps(ply_idx+1, CurrentPlayer[k])
+    # player_moves=np.append(right_moves,left_moves,axis=0)
+    right_moves = np.zeros((len(CurrentPlayer), 5), dtype='int8')
+    left_moves = np.zeros((len(CurrentPlayer), 5), dtype='int8')
+    for k in range(len(CurrentPlayer)):
+        loc = CurrentPlayer[k]
+        vacant1 = 99
+        vacant2 = 99
+        sign = int(not(player_num-1))*1 + int(not(2-player_num))*-1
+        loc1 = loc + np.array([sign * 1, -1])
+        loc2 = loc + np.array([sign * 1, 1])
 
-    elif (player == 2) and (loc[0]==0):
-        # print('player 2 cannot proceed from line 0')
-        pass
+        if (player_num == 1) and (loc[0]==7):
+            pass
+        elif (player_num == 2) and (loc[0]==0):
+            pass
+        else:
+            if loc[1]<7: # X component isn't on left edge
+                vacant2 = int(board[loc2[0],loc2[1]] == 0)
+                if board[loc2[0],loc2[1]] > 0:
+                    pass
+            if loc[1]>0: # X component isn't on right edge
+                vacant1 = int(board[loc1[0], loc1[1]] == 0)
+                if board[loc1[0],loc1[1]] > 0:
+                    pass
 
-    else:
-        if loc[1]<7: # X component isn't on left edge
-            vacant2 = int(board[loc2[0],loc2[1]] == 0)
+        right_moves[k, 0] = vacant1
+        right_moves[k, 1:3] = loc
+        right_moves[k, 3:5] = loc1
 
-            if board[loc2[0],loc2[1]] > 0:
-                pass
-                # print('player ' + str(player) + ' cannot move left to ' + str(loc2) + ' since there is already a brick of player' + str(board[loc2[0],loc2[1]]))
-        if loc[1]>0: # X component isn't on right edge
-            vacant1 = int(board[loc1[0], loc1[1]] == 0)
-            if board[loc1[0],loc1[1]] > 0:
-                pass
-                # print('player ' + str(player) + ' cannot move right to ' + str(loc1) + ' since there is already a brick of player' + str(board[loc1[0],loc1[1]]))
+        left_moves[k, 0] = vacant2
+        left_moves[k, 1:3] = loc
+        left_moves[k, 3:5] = loc2
 
+    player_moves = np.append(right_moves, left_moves, axis=0)
 
-    # print('optional player ' + str(player) + ' moves:  from ' + str(loc) + ' to ' + str(loc1) + ' or ' + str(loc2))
-    steps_return = np.zeros((1,10),dtype='int8')
-    steps_return[0, 0] = vacant1
-    steps_return[0, 1:3] = loc
-    steps_return[0, 3:5] = loc1
-    steps_return[0, 5] = vacant2
-    steps_return[0, 6:8] = loc
-    steps_return[0, 8:10] = loc2
-
-    steps_right = np.zeros((1,5),dtype='int8')
-    steps_right[0, 0] = vacant1
-    steps_right[0, 1:3] = loc
-    steps_right[0, 3:5] = loc1
-    steps_left = np.zeros((1,5),dtype='int8')
-    steps_left[0, 0] = vacant2
-    steps_left[0, 1:3] = loc
-    steps_left[0, 3:5] = loc2
-
-
-    return steps_right,steps_left
+    return player_moves
 def map_capture(player,optional_steps):
 
     risked_bricks = []
@@ -78,6 +73,7 @@ def map_capture(player,optional_steps):
     flag_capture = 0
     L=int(len(optional_steps))
     steps_capture = np.zeros((L,5))
+    epsilon = 1e-2
 
     for k in range(L):
         capture = 99
@@ -88,17 +84,23 @@ def map_capture(player,optional_steps):
         x1 = optional_steps[k,4]
 
 
-        direction = np.sign(k-(L/2))
+        direction = np.sign(k+epsilon-(L/2))
 
-        x2 = x1 + direction
+        x2 = int(x1 + direction)
         y2 = y1 + sign
+        ValidInBoard = int(0 <= x2 < 8 and 0 <= y2 < 8)  # verify that X2,Y2 are within table limits
+
         if vacant==99 or vacant==1:
             capture = int(not((99-vacant)))*99
         else:
             IsSamePlayer = int(board[y0, x0] == board[y1, x1])
-            if IsSamePlayer<1:
-                Valid_right = int(0<=x2<8 and 0<=y2<8) # verify that X2,Y2 are within table limits
-                capture = Valid_right
+            # check 2 prerequisites to enable capturing:
+            # 1. is it opponent brick that were skipping during capture?
+            # 2. is the new capture coordinates are within board bounds or outside?
+            if (IsSamePlayer==0) and (ValidInBoard==1):
+                # determine if potential capture slot is free and assign it to capture variable
+                Vacant4Capture= int(board[y2, x2]==0)
+                capture = Vacant4Capture
 
         steps_capture[k,0] = capture
         steps_capture[k,1] = y0
@@ -126,11 +128,11 @@ def CheckLegalMove(player_poten_steps,next_step):
 
     return len(idx)
 
-file = 'black.txt'
+file = 'illegal_move.txt'
 
 steps = read_file(file)
 total_steps = len(steps)
-step_count = 0
+move_count = 0
 brd_size = 8
 
 
@@ -146,30 +148,30 @@ brd_size = 8
 player1 = [[0, 1], [0, 3], [0, 5], [0, 7], [1, 0], [1, 2], [1, 4], [1, 6], [2, 1], [2, 3], [2, 5], [2, 7]]
 player2 = [[5, 0], [5, 2], [5, 4], [5, 6], [6, 1], [6, 3], [6, 5], [6, 7], [7, 0], [7, 2], [7, 4], [7, 6]]
 
-while(step_count<total_steps):
-    board = update_board(player1, player2)
-    ply_idx=np.mod(step_count,2)
-    if np.mod(step_count,2):
+turns = [1]*len(steps)
+turns[1::2] = [2 for x in turns[1::2]]
+while(move_count<total_steps):
+    board = update_board(player1, player2, Print=True)
+    ply_idx=turns[move_count]
+    last_move = int(not(move_count+1-total_steps))
+    if ply_idx == 2:
         CurrentPlayer = player2
+        Opponent = player1
     else:
         CurrentPlayer = player1
-    # =np.zeros((len(player1),10),dtype='int8')
-    right_moves=np.zeros((len(CurrentPlayer),5),dtype='int8')
-    left_moves=np.zeros((len(CurrentPlayer),5),dtype='int8')
-    for k in range(len(CurrentPlayer)):
-        right_moves[k,:],left_moves[k,:]=map_steps(ply_idx+1, CurrentPlayer[k])
-    player_moves=np.append(right_moves,left_moves,axis=0)
+        Opponent = player2
 
-    next_step = np.array(steps[step_count], dtype='int8')
+    player_moves = map_steps(ply_idx, CurrentPlayer)
+    next_step = np.array(steps[move_count], dtype='int8')
     x0=next_step[0]
     y0=next_step[1]
     x1=next_step[2]
     y1=next_step[3]
 
 
-    potential_captures, capture_exists,risked_bricks=map_capture(ply_idx+1, player_moves)
-    CaptureAccomplished = CheckLegalMove(potential_captures, next_step)
-    LegalMove = CheckLegalMove(player_moves, next_step)
+    potential_captures, capture_exists,risked_bricks=map_capture(ply_idx, player_moves)
+    CaptureAccomplished= CheckLegalMove(potential_captures, next_step)
+    LegalMove= CheckLegalMove(player_moves, next_step)
 
     if (capture_exists==0) and LegalMove==1:
         idx = CurrentPlayer.index([y0, x0])
@@ -180,12 +182,55 @@ while(step_count<total_steps):
         # check if any of optional captures were done
 
     elif (capture_exists==0) and LegalMove==0:
+        ilegal_msg= 'line ' + str(move_count+1) + ' illegal move: ' + str(x0) +',' + str(y0) +  ',' + str(x1) +',' + str(y1)
         print('ilegel move from: [' + str(x0) + ',' + str(y0) + '] to [' + str(x1) + ',' + str(y1) + ']')
         print('game stopped due to ilegal move')
-        step_count=total_steps
+        move_count=total_steps
+
+    elif (capture_exists==1) and CaptureAccomplished==1:
+        while(CaptureAccomplished):
+            y_cap= int(np.mean((y0,y1)))
+            x_cap= int(np.mean((x0,x1)))
+            Opponent.remove([y_cap,x_cap])
+            print('opponent brick was captured from [' + str(x_cap) + ',' + str(y_cap) + ']' )
+            idx = CurrentPlayer.index([y0, x0])
+            CurrentPlayer[idx] = [y1, x1]
+            print('player ' + str(board[y0, x0]) + ' moves from: [' + str(x0) + ',' + str(y0) + '] to [' + str(
+                x1) + ',' + str(y1) + ']')
+            CaptureAccomplished = CaptureAccomplished*int(not(last_move))
+            if last_move==0:
+                next_step = np.array(steps[move_count+1], dtype='int8')
+
+                brick_moves = map_steps(ply_idx, [[y1, x1]])
+                brick_captures, brick_cap_exists, risked_bricks = map_capture(ply_idx, brick_moves)
+                CaptureAccomplished = CheckLegalMove(brick_captures, next_step)
+                if CaptureAccomplished:
+                    turns_new = [turns[move_count+1] ]*(len(steps)-move_count-1)
+                    turns_new[0::2] = [ ply_idx for x in turns_new[0::2] ]
+                    turns[move_count+1:]=turns_new
+                    move_count = move_count + 1
+                    print('turn #' + str(move_count) + ' multi-capture move!' )
+                    board = update_board(player1, player2, Print=True)
+
+
+                x0 = next_step[0]
+                y0 = next_step[1]
+                x1 = next_step[2]
+                y1 = next_step[3]
 
     #build compare
 
-    step_count+=1
+    move_count+=1
     board_flipped = np.flip(board)
-    print('turn #' +str(step_count))
+    print('turn #' +str(move_count) + ' completed')
+
+player1_bricks = len(player1)
+player2_bricks = len(player2)
+win_idx=np.sign(player1_bricks-player2_bricks)+1
+win_L=['second','tie','first']
+if(np.min([player1_bricks,player2_bricks])==0):
+    print(win_L[win_idx])
+elif LegalMove==0:
+    print(ilegal_msg)
+else:
+    print('incomplete game')
